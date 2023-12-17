@@ -40,6 +40,27 @@ jobs:
     needs: [build_binaries]
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 100
+        ref: ${{ github.sha }}
+    - name: "Generate release changelog"
+      id: changelog
+      run: |
+        git fetch --tags
+        prev_tag=$(git tag --sort=-version:refname | grep -e "^v[0-9.]*$" | head -n 1)
+        echo "previous release: $prev_tag"
+        if [ "$prev_tag" ]; then
+          changelog=$(git log --oneline --no-decorate $prev_tag..HEAD)
+        else
+          changelog=$(git log --oneline --no-decorate)
+        fi
+        echo $changelog
+        changelog="${changelog//'%'/'%25'}"
+        changelog="${changelog//$'\n'/'%0A' - }"
+        changelog=" - ${changelog//$'\r'/'%0D'}"
+        echo "changelog=$changelog" >> $GITHUB_OUTPUT
+
     # download build artifacts
     - name: "Download build artifacts"
       uses: actions/download-artifact@v3
@@ -54,8 +75,8 @@ jobs:
         release_name: "v${{ inputs.version }}"
         tag_name: "v${{ inputs.version }}"
         body: |
-          ### Major Changes
-          ...
+          ### Changes
+          ${{ steps.changelog.outputs.changelog }}
 
           ### Release Artifacts
           Please read through the [wiki](https://github.com/pk910/dora/wiki) for setup & configuration instructions.

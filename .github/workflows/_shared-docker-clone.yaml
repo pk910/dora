@@ -52,7 +52,7 @@ jobs:
         tagstr="${{ matrix.tag }}"
         tagparts=(${tagstr//:/ })
         echo "source_tag=${tagparts[0]}" >> $GITHUB_OUTPUT
-        if [ -z "$tagparts[1]" ]; then
+        if [ -z "${tagparts[1]}" ]; then
           echo "target_tag=${tagparts[0]}" >> $GITHUB_OUTPUT
         else
           echo "target_tag=${tagparts[1]}" >> $GITHUB_OUTPUT
