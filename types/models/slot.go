@@ -3,6 +3,7 @@ package models
 import (
 	"time"
 
+	"github.com/attestantio/go-eth2-client/spec/verkle"
 	"github.com/pk910/dora/types"
 )
 
@@ -67,6 +68,7 @@ type SlotPageBlockData struct {
 	Withdrawals       []*SlotPageWithdrawal       `json:"withdrawals"`        // Withdrawals included in this block
 	Blobs             []*SlotPageBlob             `json:"blobs"`              // Blob sidecars included in this block
 	Transactions      []*SlotPageTransaction      `json:"transactions"`       // Transactions included in this block
+	ExecutionWitness  *SlotPageExecutionWitness   `json:"executionWitness"`
 }
 
 type SlotPageExecutionData struct {
@@ -201,4 +203,8 @@ type SlotPageTransaction struct {
 	FuncName      string  `json:"func_name"`
 	FuncSig       string  `json:"func_sig"`
 	Type          uint64  `json:"type"`
+}
+
+type SlotPageExecutionWitness struct {
+	Witness *verkle.ExecutionWitness `json:"execution_witness"`
 }

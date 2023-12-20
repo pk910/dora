@@ -198,6 +198,14 @@ func buildIndexPageData() (*models.IndexPageData, time.Duration) {
 			Active:  uint64(currentEpoch) >= utils.Config.Chain.Config.DenebForkEpoch,
 		})
 	}
+	if utils.Config.Chain.Config.ElectraForkEpoch < uint64(18446744073709551615) && utils.Config.Chain.Config.ElectraForkVersion != "" {
+		pageData.NetworkForks = append(pageData.NetworkForks, &models.IndexPageDataForks{
+			Name:    "Electra",
+			Epoch:   utils.Config.Chain.Config.ElectraForkEpoch,
+			Version: utils.MustParseHex(utils.Config.Chain.Config.ElectraForkVersion),
+			Active:  uint64(currentEpoch) >= utils.Config.Chain.Config.ElectraForkEpoch,
+		})
+	}
 
 	// load recent epochs
 	buildIndexPageRecentEpochsData(pageData, uint64(currentEpoch), finalizedEpoch, justifiedEpoch, recentEpochCount)

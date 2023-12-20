@@ -71,6 +71,11 @@
             <a class="nav-link" id="blobSidecars-tab" data-bs-toggle="tab" href="#blobSidecars" role="tab" aria-controls="blobSidecars" aria-selected="false">Blob Sidecars <span class="badge bg-secondary text-white">{{ .Block.BlobsCount }}</span></a>
           </li>
         {{ end }}
+        {{ if .Block.ExecutionWitness }}
+          <li class="nav-item">
+            <a class="nav-link" id="deposits-tab" data-bs-toggle="tab" href="#stateless" role="tab" aria-controls="stateless" aria-selected="false">Stateless</a>
+          </li>
+        {{ end }}
       {{ end }}
     </ul>
 
@@ -195,7 +200,26 @@
             {{ template "block_blobSidecar" . }}
           </div>
         {{ end }}
-
+        {{ if .Block.ExecutionWitness }}
+          <div class="tab-pane fade show active" id="stateless" role="tabpanel" aria-labelledby="stateless-tab">
+            <div class="card block-card">
+              <div style="margin-bottom: -.25rem;" class="card-body px-0 py-1">
+                <div class="row p-1 mx-0">
+                  <h3 class="h5 col-md-12 text-center"><b>Showing Proven Locations</b></h3>
+                </div>
+              </div>
+              {{ template "block_execution_witness" . }}
+            </div>
+            <div class="card block-card">
+              <div style="margin-bottom: -.25rem;" class="card-body px-0 py-1">
+                <div class="row p-1 mx-0">
+                  <h3 class="h5 col-md-12 text-center"><b>Reconstructed tree</b></h3>
+                </div>
+              </div>
+              {{ template "block_execution_pretree" . }}
+            </div>
+          </div>
+        {{ end }}
       {{ end }}
     </div>
     <script type="text/javascript">

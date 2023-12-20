@@ -41,6 +41,7 @@ func Slot(w http.ResponseWriter, r *http.Request) {
 		"slot/voluntary_exits.html",
 		"slot/slashings.html",
 		"slot/blobs.html",
+		"slot/stateless.html",
 	)
 	var notfoundTemplateFiles = append(layoutTemplateFiles,
 		"slot/notfound.html",
@@ -552,6 +553,34 @@ func getSlotPageBlockData(blockData *services.CombinedBlockResponse, assignments
 				BlockHash:     executionPayload.BlockHash[:],
 				BlockNumber:   uint64(executionPayload.BlockNumber),
 			}
+			getSlotPageTransactions(pageData, executionPayload.Transactions)
+		case spec.DataVersionVerkle:
+			if blockData.Block.Verkle == nil {
+				break
+			}
+			executionPayload := blockData.Block.Verkle.Message.Body.ExecutionPayload
+			var baseFeePerGasBEBytes [32]byte
+			for i := 0; i < 32; i++ {
+				baseFeePerGasBEBytes[i] = executionPayload.BaseFeePerGas[32-1-i]
+			}
+			baseFeePerGas := new(big.Int).SetBytes(baseFeePerGasBEBytes[:])
+			pageData.ExecutionData = &models.SlotPageExecutionData{
+				ParentHash:    executionPayload.ParentHash[:],
+				FeeRecipient:  executionPayload.FeeRecipient[:],
+				StateRoot:     executionPayload.StateRoot[:],
+				ReceiptsRoot:  executionPayload.ReceiptsRoot[:],
+				LogsBloom:     executionPayload.LogsBloom[:],
+				Random:        executionPayload.PrevRandao[:],
+				GasLimit:      uint64(executionPayload.GasLimit),
+				GasUsed:       uint64(executionPayload.GasUsed),
+				Timestamp:     uint64(executionPayload.Timestamp),
+				Time:          time.Unix(int64(executionPayload.Timestamp), 0),
+				ExtraData:     executionPayload.ExtraData,
+				BaseFeePerGas: baseFeePerGas.Uint64(),
+				BlockHash:     executionPayload.BlockHash[:],
+				BlockNumber:   uint64(executionPayload.BlockNumber),
+			}
+			pageData.ExecutionWitness = &models.SlotPageExecutionWitness{Witness: executionPayload.ExecutionWitness}
 			getSlotPageTransactions(pageData, executionPayload.Transactions)
 		}
 	}
