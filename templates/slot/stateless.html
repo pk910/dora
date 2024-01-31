@@ -1,0 +1,44 @@
+{{ define "block_execution_witness" }}
+  <div class="table">
+    <table id="block_witness" class="table table-sm text-left">
+      <thead>
+        <tr>
+          <th class="border-0">Stem</th>
+          <th class="border-0">Suffix</th>
+          <th class="border-0">Current Value</th>
+          <th class="border-0">New Value</th>
+        </tr>
+      </thead>
+      <tbody style="word-break: break-all;">
+        {{ range $i, $statediff := .Block.ExecutionWitness.Witness.StateDiff }}
+          {{ range $j, $suffixdiff := $statediff.SuffixDiffs }}
+            <tr>
+              <td>{{ printf "%#x" $statediff.Stem }}</td>
+              <td>{{ printf "%#02x" $suffixdiff.Suffix }}</td>
+              <td>
+               {{ if $suffixdiff.CurrentValue }}
+                 {{ printf "%#x" $suffixdiff.CurrentValue }}
+               {{ else }}
+                  absent
+               {{ end }}
+              </td>
+              <td>
+               {{ if $suffixdiff.NewValue }}
+                 {{ printf "%#x" $suffixdiff.NewValue }}
+               {{ else }}
+                  unchanged
+               {{ end }}
+              </td>
+            </tr>
+          {{ end }}
+        {{ end }}
+      </tbody>
+    </table>
+  </div>
+{{ end }}
+
+{{ define "block_execution_pretree" }}
+  <div class="table">
+    {{ .Block.ExecutionWitness.Witness.VerkleProof }}
+  </div>
+{{ end }}

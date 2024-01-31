@@ -48,10 +48,15 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.15.5 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.21.5 // indirect
 	github.com/aws/smithy-go v1.14.2 // indirect
+	github.com/bits-and-blooms/bitset v1.7.0 // indirect
+	github.com/consensys/bavard v0.1.13 // indirect
+	github.com/consensys/gnark-crypto v0.12.1 // indirect
+	github.com/crate-crypto/go-ipa v0.0.0-20231025140028-3c0104f4b233 // indirect
 	github.com/btcsuite/btcd/btcec/v2 v2.2.0 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.1 // indirect
 	github.com/fatih/color v1.10.0 // indirect
 	github.com/ferranbt/fastssz v0.1.3 // indirect
+	github.com/gballet/go-verkle v0.1.1-0.20231031103413-a67434b50f46 // indirect
 	github.com/go-logr/logr v1.2.4 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/goccy/go-yaml v1.9.2 // indirect
@@ -62,6 +67,7 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/minio/sha256-simd v1.0.0 // indirect
+	github.com/mmcloughlin/addchain v0.4.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/r3labs/sse/v2 v2.10.0 // indirect
 	github.com/tdewolff/parse v2.3.4+incompatible // indirect
@@ -73,6 +79,7 @@ require (
 	golang.org/x/xerrors v0.0.0-20220517211312-f3a8303e98df // indirect
 	gopkg.in/cenkalti/backoff.v1 v1.1.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
+	rsc.io/tmplfunc v0.0.3 // indirect
 )
 
 require (
@@ -91,3 +98,5 @@ require (
 	golang.org/x/crypto v0.10.0
 	golang.org/x/sys v0.12.0 // indirect
 )
+
+replace github.com/attestantio/go-eth2-client => github.com/pk910/go-eth2-client v0.0.0-20231217052657-39326b2b91a7
